@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
 using Buecherapp.Models;
 using Buecherapp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
 
 namespace Buecherapp.Controllers
 {
@@ -17,18 +19,46 @@ namespace Buecherapp.Controllers
         private readonly ILogger<BookController> logger;
         private readonly DataContext context;
         private readonly IMapper mapper;
+        private readonly HttpClient client;
 
         public BookController(ILogger<BookController> logger, DataContext context, IMapper mapper)
         {
             this.logger = logger;
             this.context = context;
             this.mapper = mapper;
+            //this.client = new HttpClient { BaseAddress = new Uri("https://www.googleapis.com/books/v1") };
+            this.client = new HttpClient();
         }
 
         [HttpGet]
-        public IEnumerable<Book> ListBooks()
+        public async Task<IEnumerable<BookListViewModel>> ListBooksAsync()
         {
-            return this.context.Books;
+            var result = this.mapper.ProjectTo<BookListViewModel>(this.context.Books).ToList();
+            foreach (var book in result)
+            {
+                book.Description = await GetGoogleDescriptionAsync(book.ISBN);
+            }
+            return result;
+        }
+
+        private async Task<string> GetGoogleDescriptionAsync(string isbn)
+        {
+
+            // TODO: replace deprecated with actual stuff, 
+            // TODO: replace Try Catch with proper Status Code handling
+            try
+            {
+                var info = await this.client.GetFromJsonAsync<GoogleBookItems>(new Uri($"https://www.googleapis.com/books/v1/volumes?q={isbn}", true));
+
+                // check if we got results
+                var item = info.Items.FirstOrDefault();
+
+                return item?.VolumeInfo?.Description;
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
         }
 
         [HttpGet("{id}")]
@@ -74,15 +104,16 @@ namespace Buecherapp.Controllers
             Book dbBook = this.context.Find<Book>(id);
             if (dbBook == null)
                 return false;
-      
-            this.mapper.Map(book, dbBook); 
+
+            this.mapper.Map(book, dbBook);
 
             this.context.SaveChanges();
             return true;
         }
 
-    }
 
+
+    }
 
 }
 
