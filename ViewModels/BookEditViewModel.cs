@@ -1,3 +1,6 @@
+// View Models are used to offer data to a client 
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Buecherapp.ViewModels{
 
@@ -19,6 +22,7 @@ namespace Buecherapp.ViewModels{
 
         public string CurrentlyLentTo { get; set; }
 
+        [RegularExpression (@"^\d{10,13}$")]
         public string ISBN { get; set; }
 
 

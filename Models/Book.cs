@@ -23,7 +23,7 @@ namespace Buecherapp.Models
 
         public string CurrentlyLentTo { get; set; }
 
-        [RegularExpression (@"(\d{10,13}).*?_(\d{3})|(\d{3}).*?_(\d{10,13})|(\d{10,13})(?=[^\d])")]
+        [RegularExpression (@"^\d{10,13}$")]
         public string ISBN { get; set; }
 
 
