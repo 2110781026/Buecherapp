@@ -1,11 +1,8 @@
 // View Models are used to offer data to a client 
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Buecherapp.ViewModels
 {
-
-    public class BookEditViewModel
+    public class BookListViewModel
     {
         public int Id { get; set; }
 
@@ -17,15 +14,9 @@ namespace Buecherapp.ViewModels
 
         public int? Rating { get; set; }
 
-        public bool? IsRead { get; set; }
+        public string Description {get; set;}
 
-        public bool? Owned { get; set; }
-
-        public string CurrentlyLentTo { get; set; }
-
-        [RegularExpression (@"^\d{10,13}$")]
         public string ISBN { get; set; }
-
 
     }
 }
