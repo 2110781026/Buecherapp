@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Buecherapp.Models;
 using Buecherapp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace Buecherapp.Controllers
     {
         private readonly ILogger<BookController> logger;
         private readonly DataContext context;
+        private readonly IMapper mapper;
 
-        public BookController(ILogger<BookController> logger, DataContext context)
+        public BookController(ILogger<BookController> logger, DataContext context, IMapper mapper)
         {
             this.logger = logger;
             this.context = context;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -71,24 +74,10 @@ namespace Buecherapp.Controllers
             Book dbBook = this.context.Find<Book>(id);
             if (dbBook == null)
                 return false;
-            if (book.Title != null)
-                dbBook.Title = book.Title;
-            if (book.Author != null)
-                dbBook.Author = book.Author;
-            if (book.Genre != null)
-                dbBook.Genre = book.Genre;
-            if (book.Rating != null)
-                dbBook.Rating = book.Rating;
-            if (book.IsRead.HasValue)
-                dbBook.IsRead = book.IsRead.Value;
-            if (book.Owned.HasValue)
-                dbBook.Owned = book.Owned.Value;
-            if (book.Author != null)
-                dbBook.CurrentlyLentTo = book.CurrentlyLentTo;
-            if (book.ISBN != null)
-                dbBook.ISBN = book.ISBN;
+      
+            this.mapper.Map(book, dbBook); 
 
-                this.context.SaveChanges();
+            this.context.SaveChanges();
             return true;
         }
 

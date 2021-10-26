@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Buecherapp.Infrastructure;
 using Buecherapp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace Buecherapp
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddAutoMapper(typeof(AutomapperConfiguration));
             services.AddDbContext<DataContext>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -49,6 +51,7 @@ namespace Buecherapp
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+            
 
             //app.UseAuthorization();
 
@@ -58,4 +61,5 @@ namespace Buecherapp
             });
         }
     }
+
 }
