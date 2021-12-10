@@ -1,4 +1,6 @@
-﻿using System;
+﻿// View Models are used to offer data to a client 
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
