@@ -46,11 +46,10 @@ namespace Buecherapp.Controllers
         private async Task<string> GetGoogleDescriptionAsync(string isbn)
         {
 
-            // TODO: replace deprecated with actual stuff, 
             // TODO: replace Try Catch with proper Status Code handling
             try
             {
-                var info = await this.client.GetFromJsonAsync<GoogleBookItems>(new Uri($"https://www.googleapis.com/books/v1/volumes?q={isbn}", true));
+                var info = await this.client.GetFromJsonAsync<GoogleBookItems>($"https://www.googleapis.com/books/v1/volumes?q={isbn}");
 
                 // check if we got results
                 var item = info.Items.FirstOrDefault();
@@ -112,11 +111,7 @@ namespace Buecherapp.Controllers
             this.context.SaveChanges();
             return true;
         }
-
-
-
     }
-
 }
 
 
