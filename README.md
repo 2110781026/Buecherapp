@@ -44,3 +44,24 @@ to run the container locally call
 ```bash
 docker run -d -v $(pwd)/data:/app/data -p 80:80 MyDockerHandle/buecherapp
 ```
+
+### Run in Azure
+create a service plan
+
+```bash
+az appservice plan create -g buecherAppGrp -n DkrPlan --is-linux
+```
+
+create the webapp
+
+```bash
+az webapp create --name buecherapp -g bucherAppGrp --plan DkrPlan -i liriel/tempmon
+```
+
+create a storage account and fileshare
+
+```bash
+az storage account create -g buecherAppGrp --name buecherappstorage --location westeurope --sku Standard_LRS
+az storage container create --name buechershare --account-name buecherappstorage
+az storage account keys list --resource-group buecherAppGrp --account-name buecherappstorage | jq '.[0] | {key: .value}'
+```
