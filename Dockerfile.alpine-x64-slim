@@ -21,7 +21,7 @@ LABEL description="Book Collection"
 
 WORKDIR /app
 COPY --from=build /app ./
-COPY data/books.db ./data/
+#COPY data/books.db ./data/
 
 # See: https://github.com/dotnet/announcements/issues/20
 # Uncomment to enable globalization APIs (or delete)
