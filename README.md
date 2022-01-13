@@ -65,3 +65,15 @@ az storage account create -g buecherAppGrp --name buecherappstorage --location w
 az storage container create --name buechershare --account-name buecherappstorage
 az storage account keys list --resource-group buecherAppGrp --account-name buecherappstorage | jq '.[0] | {key: .value}'
 ```
+
+having all the part you now can mount the storage
+
+```bash
+az webapp config storage-account add -g buecherAppGrp --name buecherapp \
+   --custom-id data \
+   --storage-type AzureBlob \
+   --account-name buecherappstorage \
+   --share-name buechershare \
+   --access-key "..." \  
+   --mount-path /app/data
+```
