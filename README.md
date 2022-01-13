@@ -28,7 +28,7 @@ dotnet ef database update
 Create a docker image like this
 
 ```bash
-docker build -t MyDockerHandle/buecherapp .
+ docker build -t buecherapp -f .\Dockerfile.alpine-x64-slim .
 ```
 
 and push it to the (public) docker registry
@@ -42,7 +42,7 @@ docker push MyDockerHandle/buecherapp
 to run the container locally call
 
 ```bash
-docker run -d -v $(pwd)/data:/app/data -p 80:80 MyDockerHandle/buecherapp
+docker run --rm -ti -v ${pwd}/data:/app/data -p 80:80 MyDockerHandle/buecherapp
 ```
 
 ### Run in Azure
@@ -55,7 +55,7 @@ az appservice plan create -g buecherAppGrp -n DkrPlan --is-linux
 create the webapp
 
 ```bash
-az webapp create --name buecherapp -g bucherAppGrp --plan DkrPlan -i liriel/tempmon
+az webapp create --name buecherapp -g bucherAppGrp --plan DkrPlan -i MyDockerHandle/Buecherapp
 ```
 
 create a storage account and fileshare
