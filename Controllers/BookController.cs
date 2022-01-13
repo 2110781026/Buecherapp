@@ -49,7 +49,7 @@ namespace Buecherapp.Controllers
             // TODO: replace Try Catch with proper Status Code handling
             try
             {
-                var info = await this.client.GetFromJsonAsync<GoogleBookItems>($"https://www.googleapis.com/books/v1/volumes?q={isbn}");
+                var info = await this.client.GetFromJsonAsync<GoogleBookItems>($"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}");
 
                 // check if we got results
                 var item = info.Items.FirstOrDefault();
