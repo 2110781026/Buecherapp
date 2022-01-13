@@ -31,6 +31,7 @@ namespace Buecherapp
 
             services.AddAutoMapper(typeof(AutomapperConfiguration));
             services.AddDbContext<DataContext>();
+            services.AddTransient<AppDbInitializer>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -39,7 +40,7 @@ namespace Buecherapp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -48,12 +49,11 @@ namespace Buecherapp
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Buecherapp v1"));
             }
 
-            //app.UseHttpsRedirection();
-
+            dbInitializer.UpdateDb();
             app.UseRouting();
             
 
-            //app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
