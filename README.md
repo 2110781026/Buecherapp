@@ -55,7 +55,7 @@ az appservice plan create -g buecherAppGrp -n DkrPlan --is-linux
 create the webapp
 
 ```bash
-az webapp create --name buecherapp -g bucherAppGrp --plan DkrPlan -i liriel/tempmon
+az webapp create --name buecherapp -g bucherAppGrp --plan DkrPlan -i MyDockerHandle/Buecherapp
 ```
 
 create a storage account and fileshare
