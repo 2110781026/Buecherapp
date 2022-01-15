@@ -1,8 +1,8 @@
 # Buecherapp
 This is the incredible Bookmaster 
 
-## Dev-Environemnt
-a new database will be created and initialized when the application handels it's first request. To manually craete the DB call
+## Dev-Environment
+A new database will be created and initialized when the application handels it's first request. To manually craete the DB call
 
 ```bash
 dotnet ef database update
@@ -18,7 +18,7 @@ Changing one of the models classes does not immedeatly affect the database schem
 dotnet ef migration add MyMigration
 ```
 
-then apply the changes 
+Then apply the changes.
 
 ```bash
 dotnet ef database update
@@ -31,7 +31,7 @@ Create a docker image like this
  docker build -t buecherapp -f .\Dockerfile.alpine-x64-slim .
 ```
 
-and push it to the (public) docker registry
+And push it to the (public) docker registry.
 
 ```bash
 docker push MyDockerHandle/buecherapp
@@ -46,19 +46,19 @@ docker run --rm -ti -v ${pwd}/data:/app/data -p 80:80 MyDockerHandle/buecherapp
 ```
 
 ### Run in Azure
-create a service plan
+Create a service plan.
 
 ```bash
 az appservice plan create -g buecherAppGrp -n DkrPlan --is-linux
 ```
 
-create the webapp
+Create the webapp.
 
 ```bash
 az webapp create --name buecherapp -g bucherAppGrp --plan DkrPlan -i MyDockerHandle/Buecherapp
 ```
 
-create a storage account and fileshare
+Create a storage account and fileshare.
 
 ```bash
 az storage account create -g buecherAppGrp --name buecherappstorage --location westeurope --sku Standard_LRS
@@ -66,7 +66,7 @@ az storage container create --name buechershare --account-name buecherappstorage
 az storage account keys list --resource-group buecherAppGrp --account-name buecherappstorage | jq '.[0] | {key: .value}'
 ```
 
-having all the part you now can mount the storage
+Having all the part you now can mount the storage.
 
 ```bash
 az webapp config storage-account add -g buecherAppGrp --name buecherapp \
