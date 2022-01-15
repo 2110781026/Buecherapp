@@ -23,7 +23,13 @@ if ($userInput -eq "A")
     $genre = read-host "genre:"
     $rating = read-host "rating:"
     if (($isread = read-host "boolean isread:") -eq ""){$isread = "false"}
+    else {
+        $isread = "true"
+    }
     if (($isowned = read-host "boolean isread:") -eq ""){$isowned = "false"}
+    else {
+        $isowned = "true"
+    }
     $currentlyLeantto = read-host "currently lent to:"
     $isbn = read-host "isbn:"
     
@@ -80,8 +86,8 @@ if ($userInput -eq "C")
         $author = read-host "author:"
         $genre = read-host "genre:"
         $rating = read-host "rating:"
-        if (($isread = read-host "boolean isread:") -eq ""){$isread = "false"}
-        if (($isowned = read-host "boolean isread:") -eq ""){$isowned = "false"}
+        $isread = read-host "boolean isread:"
+        $isowned = read-host "boolean isread:"
         $currentlyLeantto = read-host "currently lent to:"
         $isbn = read-host "isbn:"
         
@@ -92,8 +98,14 @@ if ($userInput -eq "C")
         if( $author -ne "") { $Body.add("author", $author) }
         if( $genre -ne "") { $Body.add("genre", $genre) }
         if( $rating -ne "" ) { $Body.add("rating", $rating) }
+        if ($isread -eq "true" -or $isread -eq "false")
+        {   
         $Body.add("isread",([System.Convert]::ToBoolean($isread)))
+        }
+        if ($isread -eq "true" -or $isread -eq "false")
+        {
         $Body.add("owned",([System.Convert]::ToBoolean($isowned)))
+        }
         if( $currentlyLeantto -ne "" ) { $Body.add("currentlyLeantto", $currentlyLeantto) }
         if( $isbn -ne "") { $Body.add("isbn", $isbn) }
         

@@ -14,9 +14,14 @@ namespace Buecherapp.ViewModels
 
         public int? Rating { get; set; }
 
+        public bool? Owned {get; set;}
+
+        public bool? Isread {get; set; }
+
         public string Description {get; set;}
 
         public string ISBN { get; set; }
+
 
     }
 }
